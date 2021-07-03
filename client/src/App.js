@@ -35,7 +35,7 @@ const styles = theme => ({
     marginRight: 18
   },
   progress: {
-    margin: theme.spacing.unit * 2
+    margin: theme.spacing(2)
   },
   grow: {
     flexGrow: 1,

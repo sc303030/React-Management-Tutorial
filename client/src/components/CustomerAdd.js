@@ -76,23 +76,23 @@ class CustomerAdd extends React.Component {
         return post(url, formData, config);
     }
 
-    handleClickOpen = () => {
-        this.setState({
-            open: true
-        });
-    }
+    // handleClickOpen = () => {
+    //     this.setState({
+    //         open: true
+    //     });
+    // }
 
-    handleClose = () => {
-        this.setState({
-            file: null,
-            userName: '',
-            birthday: '',
-            gender: '',
-            job: '',
-            fileName: '',
-            open: false
-        })
-    }
+    // handleClose = () => {
+    //     this.setState({
+    //         file: null,
+    //         userName: '',
+    //         birthday: '',
+    //         gender: '',
+    //         job: '',
+    //         fileName: '',
+    //         open: false
+    //     })
+    // }
 
     render() {
         // const { classes } = this.props;
@@ -104,7 +104,7 @@ class CustomerAdd extends React.Component {
                 생년월일 : <input type="text" name="birthday" value={this.state.birthday} onChange={this.handleValueChange}/><br/>
                 성별 : <input type="text" name="gender" value={this.state.gender} onChange={this.handleValueChanged}/><br/>
                 직업 : <input type="text" name="job" value={this.state.job} onChange={this.handleValueChanged}/><br/>
-                <buttom type="submit">추가하기</buttom>
+                <button type="submit">추가하기</button>
             </form>
             // <div>
             //     <Button variant="contained" color="primary" onClick={this.handleClickOpen}>
