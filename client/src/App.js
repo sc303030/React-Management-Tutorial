@@ -15,7 +15,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
-import { fade } from '@material-ui/core/styles/colorManipulator';
+import { fade, makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 
@@ -37,17 +37,14 @@ const styles = theme => ({
   progress: {
     margin: theme.spacing(2)
   },
-  grow: {
-    flexGrow: 1,
-  },
   tableHead: {
     fontSize: '1.0rem'
   },
   menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
+    marginRight: theme.spacing(2),
   },
   title: {
+    flexGrow: 1,
     display: 'none',
     [theme.breakpoints.up('sm')]: {
       display: 'block',
@@ -63,12 +60,12 @@ const styles = theme => ({
     marginLeft: 0,
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing.unit,
+      marginLeft: theme.spacing(1),
       width: 'auto',
     },
   },
   searchIcon: {
-    width: theme.spacing.unit * 9,
+    padding: theme.spacing(0, 2),
     height: '100%',
     position: 'absolute',
     pointerEvents: 'none',
@@ -78,22 +75,20 @@ const styles = theme => ({
   },
   inputRoot: {
     color: 'inherit',
-    width: '100%',
   },
   inputInput: {
-    paddingTop: theme.spacing.unit,
-    paddingRight: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit * 10,
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      width: 120,
+      width: '12ch',
       '&:focus': {
-        width: 200,
+        width: '20ch',
       },
     },
-  }
+  },
 });
 
 class App extends Component {
@@ -126,7 +121,11 @@ class App extends Component {
   }
 
   callApi = async () => {
-    const response = await fetch('/api/customers');
+    const response = await fetch('/api/customers',{
+      headers: {
+        'Accept' : 'application / json'
+      }
+    });
     const body = await response.json();
     return body;
   }
@@ -156,31 +155,35 @@ class App extends Component {
     return (
       <div className={classes.root}>
         <AppBar position="static">
-          <Toolbar>
-            <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
-              <MenuIcon />
-            </IconButton>
-            <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-              고객 관리 시스템
-            </Typography>
-            <div className={classes.grow} />
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="검색하기"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                name="searchKeyword"
-                value={this.state.searchKeyword}
-                onChange={this.handleValueChange}
-              />
+        <Toolbar>
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="open drawer"
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography className={classes.title} variant="h6" noWrap>
+            고객 관리 시스템
+          </Typography>
+          <div className={classes.search}>
+            <div className={classes.searchIcon}>
+              <SearchIcon />
             </div>
-          </Toolbar>
-        </AppBar>
+            <InputBase
+              placeholder="검색하기"
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+              name="searchKeyword"
+              value={this.state.searchKeyword}
+              onChange={this.handleValueChange}
+            />
+          </div>
+        </Toolbar>
+      </AppBar>
         <div className={classes.menu}>
           <CustomerAdd stateRefresh={this.stateRefresh}/>
         </div>
@@ -188,8 +191,8 @@ class App extends Component {
           <Table className={classes.table}>
             <TableHead>
               <TableRow>
-                {cellList.map(c => {
-                  return <TableCell className={classes.tableHead}>{c}</TableCell>
+                {cellList.map((c, index) => {
+                  return <TableCell className={classes.tableHead} key={index}>{c}</TableCell>
                 })}
               </TableRow>
             </TableHead>
